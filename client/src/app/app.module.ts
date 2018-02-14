@@ -18,6 +18,7 @@ import { MTrajetsComponent } from './m-trajets/m-trajets.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditTrajetComponent } from './m-trajets/edit-trajet/edit-trajet.component';
 import { FormsModule } from '@angular/forms';
+import { DeleteTrajetComponent } from './m-trajets/delete-trajet/delete-trajet.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { FormsModule } from '@angular/forms';
     ProfileComponent,
     MTrajetsComponent,
     DashboardComponent,
-    EditTrajetComponent
+    EditTrajetComponent,
+    DeleteTrajetComponent
   ],
   imports: [
     BrowserModule,

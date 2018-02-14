@@ -49,5 +49,9 @@ export class TrajetService {
     this.createAuthenticationHeaders(); // Create headers
     return this.http.put(this.domain + 'trajets/updateTrajet/', trajet, this.options).map(res => res.json());
   }
-
+  // Function to delete a trajet
+  deleteTrajet(id) {
+    this.createAuthenticationHeaders(); // Create headers
+    return this.http.delete(this.domain + 'trajets/deleteTrajet/' + id, this.options).map(res => res.json());
+  }
 }

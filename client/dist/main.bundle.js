@@ -40,6 +40,7 @@ var notAuth_guard_1 = __webpack_require__("../../../../../src/app/guards/notAuth
 var m_trajets_component_1 = __webpack_require__("../../../../../src/app/m-trajets/m-trajets.component.ts");
 var dashboard_component_1 = __webpack_require__("../../../../../src/app/dashboard/dashboard.component.ts");
 var edit_trajet_component_1 = __webpack_require__("../../../../../src/app/m-trajets/edit-trajet/edit-trajet.component.ts");
+var delete_trajet_component_1 = __webpack_require__("../../../../../src/app/m-trajets/delete-trajet/delete-trajet.component.ts");
 var appRoutes = [
     { path: '',
         component: home_component_1.HomeComponent
@@ -72,6 +73,11 @@ var appRoutes = [
     {
         path: 'edit-trajet/:id',
         component: edit_trajet_component_1.EditTrajetComponent,
+        canActivate: [auth_guard_1.AuthGuard] // User must be logged in to view this route
+    },
+    {
+        path: 'delete-trajet/:id',
+        component: delete_trajet_component_1.DeleteTrajetComponent,
         canActivate: [auth_guard_1.AuthGuard] // User must be logged in to view this route
     },
     {
@@ -190,6 +196,7 @@ var m_trajets_component_1 = __webpack_require__("../../../../../src/app/m-trajet
 var dashboard_component_1 = __webpack_require__("../../../../../src/app/dashboard/dashboard.component.ts");
 var edit_trajet_component_1 = __webpack_require__("../../../../../src/app/m-trajets/edit-trajet/edit-trajet.component.ts");
 var forms_2 = __webpack_require__("../../../forms/esm5/forms.js");
+var delete_trajet_component_1 = __webpack_require__("../../../../../src/app/m-trajets/delete-trajet/delete-trajet.component.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -204,7 +211,8 @@ var AppModule = /** @class */ (function () {
                 profile_component_1.ProfileComponent,
                 m_trajets_component_1.MTrajetsComponent,
                 dashboard_component_1.DashboardComponent,
-                edit_trajet_component_1.EditTrajetComponent
+                edit_trajet_component_1.EditTrajetComponent,
+                delete_trajet_component_1.DeleteTrajetComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,
@@ -579,6 +587,116 @@ exports.LoginComponent = LoginComponent;
 
 /***/ }),
 
+/***/ "../../../../../src/app/m-trajets/delete-trajet/delete-trajet.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/m-trajets/delete-trajet/delete-trajet.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<h1 class=\"page-header\">Delete Trajet</h1>\n\n<!-- Custom Success/Error Message -->\n<div class=\"row show-hide-message\" *ngIf=\"message\">\n  <div [ngClass]=\"messageClass\">\n    {{ message }}\n  </div>\n</div>\n\n<!-- Modal Confirmation Window -->\n<div class=\"col-md-6\"  *ngIf=\"foundTrajet\">\n  <!-- Model Outer Layer -->\n  <div class=\"modal-content\">\n    <!-- Modal Header -->\n    <div class=\"modal-header\">\n      <!-- Close Button -->\n      <!-- <button type=\"button\" name=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button> -->\n      <!-- Modal Title -->\n      <h4 class=\"modal-title\">Confirm</h4>\n    </div>\n\n    <!-- Modal Body -->\n    <div class=\"modal-body\">\n      <p>Êtes-vous sûr de vouloir supprimer définitivement ce trajet?</p>\n    </div>\n\n    <!-- Modal Footer -->\n    <div class=\"modal-footer\">\n      <!-- Yes Button -->\n      <button [disabled]=\"processing\" type=\"button\" name=\"button\" class=\"btn btn-success\" (click)=\"deleteTrajet()\">Oui</button>\n      <!-- No Button -->\n      <a routerLink=\"/m-trajets\"><button [disabled]=\"processing\" type=\"button\" name=\"button\" class=\"btn btn-danger\">Non</button></a>\n    </div>\n  </div>\n\n  <br />\n\n\n<!-- Panel Start -->\n<div>\n\n  <!-- Panel Outer Layer -->\n  <div class=\"panel panel-primary\">\n\n      \n    <!-- Panel Footer Start -->\n    <div>\n        <strong>Ville de départ: </strong>{{ trajet.vDepart }}\n        <br />\n        <strong>Ville de destination: </strong> {{ trajet.vDestination }}\n        <br />\n        <strong>Date de départ: </strong> {{ trajet.date }}\n        <br />\n\n\n  </div>\n  <!-- Panel Outer Layer -->\n</div>\n<!-- Panel End -->\n\n\n</div>\n\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/m-trajets/delete-trajet/delete-trajet.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var trajet_service_1 = __webpack_require__("../../../../../src/app/services/trajet.service.ts");
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
+var DeleteTrajetComponent = /** @class */ (function () {
+    function DeleteTrajetComponent(trajetService, activatedRoute, router) {
+        this.trajetService = trajetService;
+        this.activatedRoute = activatedRoute;
+        this.router = router;
+        this.foundTrajet = false;
+        this.processing = false;
+    }
+    // Function to delete trajets
+    DeleteTrajetComponent.prototype.deleteTrajet = function () {
+        var _this = this;
+        this.processing = true; // Disable buttons
+        // Function for DELETE request
+        this.trajetService.deleteTrajet(this.currentUrl.id).subscribe(function (data) {
+            // Check if delete request worked
+            if (!data.success) {
+                _this.messageClass = 'alert alert-danger'; // Return error bootstrap class
+                _this.message = data.message; // Return error message
+            }
+            else {
+                _this.messageClass = 'alert alert-success'; // Return bootstrap success class
+                _this.message = data.message; // Return success message
+                // After two second timeout, route to trajet page
+                setTimeout(function () {
+                    _this.router.navigate(['../m-trajets']); // Route users to trajet page
+                }, 2000);
+            }
+        });
+    };
+    DeleteTrajetComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.currentUrl = this.activatedRoute.snapshot.params; // Get URL paramaters on page load
+        // Function for GET request to retrieve trajet
+        this.trajetService.getSingleTrajet(this.currentUrl.id).subscribe(function (data) {
+            // Check if request was successfull
+            if (!data.success) {
+                _this.messageClass = 'alert alert-danger'; // Return bootstrap error class
+                _this.message = data.message; // Return error message
+            }
+            else {
+                // Create the trajet object to use in HTML
+                _this.trajet = {
+                    vDepart: data.trajet.vDepart,
+                    vDestination: data.trajet.vDestination,
+                    date: data.trajet.date
+                };
+                _this.foundTrajet = true; // Displaly trajet window
+            }
+        });
+    };
+    DeleteTrajetComponent = __decorate([
+        core_1.Component({
+            selector: 'app-delete-trajet',
+            template: __webpack_require__("../../../../../src/app/m-trajets/delete-trajet/delete-trajet.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/m-trajets/delete-trajet/delete-trajet.component.css")]
+        }),
+        __metadata("design:paramtypes", [trajet_service_1.TrajetService,
+            router_1.ActivatedRoute,
+            router_1.Router])
+    ], DeleteTrajetComponent);
+    return DeleteTrajetComponent;
+}());
+exports.DeleteTrajetComponent = DeleteTrajetComponent;
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/m-trajets/edit-trajet/edit-trajet.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -711,7 +829,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/m-trajets/m-trajets.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1 class=\"page-header\">Itinéraire</h1>\n\n<!-- Custom Success/Error Message -->\n<div class=\"row show-hide-message\" *ngIf=\"message && newPost\">\n  <div [ngClass]=\"messageClass\">\n    {{ message }}\n  </div>\n</div>\n\n<!-- New Post Button -->\n<button type=\"button\" name=\"button\" class=\"btn btn-warning\" *ngIf=\"!newPost\" (click)=\"newTrajetForm()\">Nouveau\nTrajet  </button>\n\n<!-- Reload Button -->\n<button [disabled]=\"loadingTrajets\" type=\"button\" name=\"button\" class=\"btn btn-default\" *ngIf=\"!newPost\" (click)=\"reloadTrajets()\">Reload</button>\n\n<br />\n<br />\n\n<!-- New Trajet Form -->\n<form [formGroup]=\"form\" name=\"trajetForm\" (submit)=\"onTrajetSubmit()\" *ngIf=\"newPost\">\n  <!-- Ville depart Input -->\n  <div class=\"form-group\">\n    <label for=\"vDepart\">D’où partez-vous ?</label>\n    <div [ngClass]=\"{'has-success': form.controls.vDepart.valid, 'has-error': (form.controls.vDepart.dirty && form.controls.vDepart.errors)}\">\n      <input type=\"text\" name=\"vDepart\" class=\"form-control\" placeholder=\"*Ville de départ\" autocomplete=\"off\" formControlName=\"vDepart\" />\n      <ul class=\"help-block\">\n        <li *ngIf=\"form.controls.vDepart.dirty && form.controls.vDepart.errors?.required\">This field is required.</li>\n        <li *ngIf=\"(form.controls.vDepart.dirty && form.controls.vDepart.errors?.minlength) || (form.controls.vDepart.dirty && form.controls.vDepart.errors?.maxlength)\">Max length: 30, Min length: 3</li>\n        <li *ngIf=\"form.controls.vDepart.dirty && form.controls.vDepart.errors?.alphabetValidation\">Must be just letters</li>\n      </ul>\n    </div>\n  </div>\n    <!-- Ville Destination Input -->\n    <div class=\"form-group\">\n      <label for=\"vDestination\">Où allez-vous ?</label>\n      <div [ngClass]=\"{'has-success': form.controls.vDestination.valid, 'has-error': form.controls.vDestination.dirty && form.controls.vDestination.errors}\">\n        <input type=\"text\" name=\"vDestination\" class=\"form-control\" placeholder=\"*Ville de destination\" autocomplete=\"off\" formControlName=\"vDestination\" />\n        <ul class=\"help-block\">\n          <li *ngIf=\"form.controls.vDestination.dirty && form.controls.vDestination.errors?.required\">This field is required.</li>\n          <li *ngIf=\"(form.controls.vDestination.dirty && form.controls.vDestination.errors?.minlength) || (form.controls.vDestination.dirty && form.controls.vDestination.errors?.maxlength)\">Max length: 30, Min length: 3</li>\n          <li *ngIf=\"form.controls.vDestination.dirty && form.controls.vDestination.errors?.alphabetValidation\">Must be just letters</li>\n        </ul>\n      </div>\n    </div>\n\n    <!-- Date Input -->\n    <div class=\"form-group\">\n      <label for=\"date\">Quelle date ?</label>\n      <div>\n        <input type=\"text\" name=\"date\" class=\"form-control\" placeholder=\"MM/DD/YYYY\" autocomplete=\"off\" formControlName=\"date\" />\n\n      </div>\n    </div>\n\n  <!-- Go Back Button -->\n  <button [disabled]=\"processing\" type=\"button\" name=\"button\" (click)=\"goBack()\" class=\"btn btn-warning\">Go Back</button>\n  <!-- Submit Button -->\n  <button [disabled]=\"processing || !form.valid\" type=\"submit\" name=\"button\" class=\"btn btn-success\">Submit</button>\n\n</form>\n<!-- New Trajet Form -->\n\n\n<!-- Panel Start -->\n<div *ngIf=\"!newPost\">\n\n  <!-- Panel Outer Layer -->\n  <div class=\"panel panel-primary\" *ngFor=\"let trajet of trajetPosts\">\n\n      \n    <!-- Panel Footer Start -->\n    <div>\n        <strong>Ville de départ: </strong>{{ trajet.vDepart }}\n        <br />\n        <strong>Ville de destination: </strong> {{ trajet.vDestination }}\n        <br />\n        <strong>Date de départ: </strong> {{ trajet.date }}\n        <br />\n\n      <!-- Edit Button -->\n      <a [routerLink]=\"['/edit-trajet/', trajet._id]\"><button type=\"button\" name=\"button\" class=\"btn btn-sm btn-info\">Edit</button></a>\n      <!-- Delete Button -->\n      <a [routerLink]=\"['/delete-trajet/', trajet._id]\"><button type=\"button\" name=\"button\" class=\"btn btn-sm btn-danger\">Delete</button></a>\n\n      <br />\n      <br />\n      <br />\n      <br />\n\n\n  </div>\n  <!-- Panel Outer Layer -->\n</div>\n<!-- Panel End -->"
+module.exports = "<h1 class=\"page-header\">Itinéraire</h1>\n\n<!-- Custom Success/Error Message -->\n<div class=\"row show-hide-message\" *ngIf=\"message && newPost\">\n  <div [ngClass]=\"messageClass\">\n    {{ message }}\n  </div>\n</div>\n\n<!-- New Post Button -->\n<button type=\"button\" name=\"button\" class=\"btn btn-warning\" *ngIf=\"!newPost\" (click)=\"newTrajetForm()\">Nouveau\nTrajet  </button>\n\n<!-- Reload Button -->\n<button [disabled]=\"loadingTrajets\" type=\"button\" name=\"button\" class=\"btn btn-default\" *ngIf=\"!newPost\" (click)=\"reloadTrajets()\">Reload</button>\n\n<br />\n<br />\n\n<!-- New Trajet Form -->\n<form [formGroup]=\"form\" name=\"trajetForm\" (submit)=\"onTrajetSubmit()\" *ngIf=\"newPost\">\n  <!-- Ville depart Input -->\n  <div class=\"form-group\">\n    <label for=\"vDepart\">D’où partez-vous ?</label>\n    <div [ngClass]=\"{'has-success': form.controls.vDepart.valid, 'has-error': (form.controls.vDepart.dirty && form.controls.vDepart.errors)}\">\n      <input type=\"text\" name=\"vDepart\" class=\"form-control\" placeholder=\"*Ville de départ\" autocomplete=\"off\" formControlName=\"vDepart\" />\n      <ul class=\"help-block\">\n        <li *ngIf=\"form.controls.vDepart.dirty && form.controls.vDepart.errors?.required\">This field is required.</li>\n        <li *ngIf=\"(form.controls.vDepart.dirty && form.controls.vDepart.errors?.minlength) || (form.controls.vDepart.dirty && form.controls.vDepart.errors?.maxlength)\">Max length: 30, Min length: 3</li>\n        <li *ngIf=\"form.controls.vDepart.dirty && form.controls.vDepart.errors?.alphabetValidation\">Must be just letters</li>\n      </ul>\n    </div>\n  </div>\n    <!-- Ville Destination Input -->\n    <div class=\"form-group\">\n      <label for=\"vDestination\">Où allez-vous ?</label>\n      <div [ngClass]=\"{'has-success': form.controls.vDestination.valid, 'has-error': form.controls.vDestination.dirty && form.controls.vDestination.errors}\">\n        <input type=\"text\" name=\"vDestination\" class=\"form-control\" placeholder=\"*Ville de destination\" autocomplete=\"off\" formControlName=\"vDestination\" />\n        <ul class=\"help-block\">\n          <li *ngIf=\"form.controls.vDestination.dirty && form.controls.vDestination.errors?.required\">This field is required.</li>\n          <li *ngIf=\"(form.controls.vDestination.dirty && form.controls.vDestination.errors?.minlength) || (form.controls.vDestination.dirty && form.controls.vDestination.errors?.maxlength)\">Max length: 30, Min length: 3</li>\n          <li *ngIf=\"form.controls.vDestination.dirty && form.controls.vDestination.errors?.alphabetValidation\">Must be just letters</li>\n        </ul>\n      </div>\n    </div>\n\n    <!-- Date Input -->\n    <div class=\"form-group\">\n      <label for=\"date\">Quelle date ?</label>\n      <div>\n        <input type=\"date\" name=\"date\" class=\"form-control\" placeholder=\"MM/DD/YYYY\" autocomplete=\"off\" formControlName=\"date\" />\n\n      </div>\n    </div>\n\n  <!-- Go Back Button -->\n  <button [disabled]=\"processing\" type=\"button\" name=\"button\" (click)=\"goBack()\" class=\"btn btn-warning\">Go Back</button>\n  <!-- Submit Button -->\n  <button [disabled]=\"processing || !form.valid\" type=\"submit\" name=\"button\" class=\"btn btn-success\">Submit</button>\n\n</form>\n<!-- New Trajet Form -->\n\n\n<!-- Panel Start -->\n<div *ngIf=\"!newPost\">\n\n  <!-- Panel Outer Layer -->\n  <div class=\"panel panel-primary\" *ngFor=\"let trajet of trajetPosts\">\n\n      \n    <!-- Panel Footer Start -->\n    <div>\n        <strong>Ville de départ: </strong>{{ trajet.vDepart }}\n        <br />\n        <strong>Ville de destination: </strong> {{ trajet.vDestination }}\n        <br />\n        <strong>Date de départ: </strong> {{ trajet.date }}\n        <br />\n\n      <!-- Edit Button -->\n      <a [routerLink]=\"['/edit-trajet/', trajet._id]\"><button type=\"button\" name=\"button\" class=\"btn btn-sm btn-info\">Edit</button></a>\n      <!-- Delete Button -->\n      <a [routerLink]=\"['/delete-trajet/', trajet._id]\"><button type=\"button\" name=\"button\" class=\"btn btn-sm btn-danger\">Delete</button></a>\n\n      <br />\n      <br />\n      <br />\n      <br />\n\n\n  </div>\n  <!-- Panel Outer Layer -->\n</div>\n<!-- Panel End -->"
 
 /***/ }),
 
@@ -1326,6 +1444,11 @@ var TrajetService = /** @class */ (function () {
     TrajetService.prototype.editTrajet = function (trajet) {
         this.createAuthenticationHeaders(); // Create headers
         return this.http.put(this.domain + 'trajets/updateTrajet/', trajet, this.options).map(function (res) { return res.json(); });
+    };
+    // Function to delete a trajet
+    TrajetService.prototype.deleteTrajet = function (id) {
+        this.createAuthenticationHeaders(); // Create headers
+        return this.http.delete(this.domain + 'trajets/deleteTrajet/' + id, this.options).map(function (res) { return res.json(); });
     };
     TrajetService = __decorate([
         core_1.Injectable(),

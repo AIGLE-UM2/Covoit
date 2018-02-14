@@ -102,7 +102,7 @@ module.exports = (router) => {
 
 
   /* ===============================================================
-     UPDATE BLOG POST
+     UPDATE trajet POST
   =============================================================== */
   router.put('/updateTrajet', (req, res) => {
     // Check if id was provided
@@ -119,7 +119,7 @@ module.exports = (router) => {
           if (!trajet) {
             res.json({ success: false, message: 'Trajet id was not found.' }); // Return error message
           } else {
-            // Check who user is that is requesting blog update
+            // Check who user is that is requesting trajet update
             User.findOne({ _id: req.decoded.userId }, (err, user) => {
               // Check if error was found
               if (err) {
@@ -152,6 +152,39 @@ module.exports = (router) => {
                 }
               }
             });
+          }
+        }
+      });
+    }
+  });
+
+
+    /* ===============================================================
+     DELETE Trajet POST
+  =============================================================== */
+  router.delete('/deleteTrajet/:id', (req, res) => {
+    // Check if ID was provided in parameters
+    if (!req.params.id) {
+      res.json({ success: false, message: 'No id provided' }); // Return error message
+    } else {
+      // Check if id is found in database
+      Trajet.findOne({ _id: req.params.id }, (err, trajet) => {
+        // Check if error was found
+        if (err) {
+          res.json({ success: false, message: 'Invalid id' }); // Return error message
+        } else {
+          // Check if trajet was found in database
+          if (!trajet) {
+            res.json({ success: false, messasge: 'Trajet was not found' }); // Return error message
+          } else {
+                    // Remove the trajet from database
+                    trajet.remove((err) => {
+                      if (err) {
+                        res.json({ success: false, message: err }); // Return error message
+                      } else {
+                        res.json({ success: true, message: 'Trajet deleted!' }); // Return success message
+                      }
+                    });
           }
         }
       });

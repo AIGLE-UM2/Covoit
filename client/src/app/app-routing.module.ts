@@ -9,6 +9,7 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { MTrajetsComponent } from './m-trajets/m-trajets.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditTrajetComponent } from './m-trajets/edit-trajet/edit-trajet.component';
+import { DeleteTrajetComponent } from './m-trajets/delete-trajet/delete-trajet.component';
 
 
 const appRoutes: Routes = [ // this is an array of objects , each object is each route
@@ -51,6 +52,11 @@ const appRoutes: Routes = [ // this is an array of objects , each object is each
     {
       path: 'edit-trajet/:id',
       component: EditTrajetComponent, // EditTrajetComponent Route
+      canActivate: [AuthGuard] // User must be logged in to view this route
+    },
+    {
+      path: 'delete-trajet/:id',
+      component: DeleteTrajetComponent, // DeleteTrajetComponent Route
       canActivate: [AuthGuard] // User must be logged in to view this route
     },
 
