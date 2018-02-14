@@ -1,0 +1,40 @@
+ <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+  <a class="navbar-brand" routerLink="/"><img src="../assets/images/blabla-logo.png" class="" alt="" width="100" height="20"> </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item active ">
+            <a *ngIf="!authService.loggedIn()" class="nav-link" routerLink="./register">Inscription <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a *ngIf="!authService.loggedIn()" class="nav-link" routerLink="./login">Connexion</a>
+          </li>
+          <li class="nav-item">
+              <a *ngIf="authService.loggedIn()" class="nav-link" routerLink="./profile">Profil</a>
+          </li>
+          <li class="nav-item">
+            <a *ngIf="authService.loggedIn()" class="nav-link" routerLink="./m-trajets">Proposer un trajet</a>
+          </li>
+          <li class="nav-item">
+              <a *ngIf="authService.loggedIn()" class="nav-link" href="#" (click)="onLogoutClick()" >Logout</a>
+          </li>
+
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li> -->
+        </ul>
+
+      </div>
+    </nav>
+
+
+   

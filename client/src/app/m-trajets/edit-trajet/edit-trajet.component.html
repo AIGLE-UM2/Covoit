@@ -1,0 +1,41 @@
+
+<h1 class="page-header">Edit Trajet</h1>
+
+<!-- Custom Success/Erro Message -->
+<div class="row show-hide-message" *ngIf="message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+<!-- Edit Trajet Form -->
+<form (submit)="updateTrajetSubmit()" *ngIf="!loading">
+  <!-- vDepart Field -->
+  <div class="form-group">
+    <label for="vDepart">Ville de départ:</label>
+    <!-- vDepart Input -->
+    <input [disabled]="processing" type="text" name="vDepart" placeholder="*Ville de Départ" class="form-control" [(ngModel)]="trajet.vDepart" />
+  </div>
+
+  <!-- vDestination Field -->
+  <div class="form-group">
+    <label for="vDestination">Ville de destination:</label>
+    <!-- vDestination Input -->
+    <input [disabled]="processing" type="text" name="vDestination" placeholder="*Ville de Destination" class="form-control" [(ngModel)]="trajet.vDestination" />
+  </div>
+
+    <!-- Date Field -->
+    <div class="form-group">
+      <label for="date">Date de départ:</label>
+      <!-- date Input -->
+      <input [disabled]="processing" type="date" name="date" placeholder="*MM/DD/YYYY" class="form-control" [(ngModel)]="trajet.date" />
+    </div>
+
+  <!-- Delete Button -->
+  <a [routerLink]="['/delete-trajet/', trajet._id]"><button  [disabled]="processing"  type="button" name="button" class="btn btn-danger">Delete</button></a>
+  <!-- Go Back Button -->
+  <button [disabled]="processing" type="button" name="button" class="btn btn-success" (click)="goBack()">Go Back</button>
+  <!-- Save Changes Button -->
+  <button [disabled]="processing" type="submit" name="save" class="btn btn-info">Save Changes</button>
+
+</form>
