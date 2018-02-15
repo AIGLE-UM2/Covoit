@@ -1,6 +1,6 @@
-//Express
-let express = require("express"); // Pulling in the express package
-let app = express(); //initializing an express application and saving in the variable 'app' and then we can use it in our application
+//To include a module, use the require() function with the name of the module: var http = require('http');
+const express = require("express"); // Pulling in the express package
+const app = express(); //initializing an express application and saving in the variable 'app' and then we can use it in our application
 const router = express.Router();
 const path = require ("path"); 
 const authentication = require('./routes/authentication')(router);
@@ -14,21 +14,21 @@ const bodyParser =  require ("body-parser");
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-// Static Folders
+// Static Folder
 app.use(express.static(__dirname + '/client/dist'));// we give access of angular app to server
+
 app.use('/authentication', authentication);
 app.use('/trajets', trajets);
 
 
 //mongoose
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const config = require('./config/dataBase'); // import ./config/dataBase   we assigned it to the const of CONFIG
-// mongoose.Promise = global.Promis; //configuration issus with mongoose
-mongoose.connect(config.uri, (err) => { // now we can connect to the URI in the  ./config/dataBase  and after adding sth for connection errors 
-    if(err) {
+mongoose.connect(config.uri, (err) => { // now we can connect to the uri: 'mongodb://localhost/27017'  
+    if(err) { //and after adding sth for connection errors 
         console.log('Could NOT connect to databse :', err);
     } else {
-    //    console.log(config.secret)
+    // console.log(config.secret)
         console.log('Connected to databse :' + config.db)
     }
 });
@@ -52,7 +52,7 @@ app.use(cors({
     origin: 'http://localhost:4200'
 }))
 
-
+// ***req*** argument represents the request from the client, as an object (http.IncomingMessage object).
 app.get('*', (req, res) => { //any time user send get request 
     res.sendFile(path.join(__dirname + '/client/dist/index.html')); // we are going to respond with sth(here is index.html file)
 });
