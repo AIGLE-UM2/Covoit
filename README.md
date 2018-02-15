@@ -1,4 +1,4 @@
-# MEAN Stack learning simple project (BlaBlaCar)
+# MEAN Stack learning case (BlaBlaCar)
 
 
 
@@ -69,10 +69,7 @@ var app = express();
 
 * [Download ROBOMongo](https://robomongo.org/) - free lightweight GUI for MongoDB 
 
-#### mongoose 
-elegant mongodb object modeling for node.js
-http://mongoosejs.com/
-
+* [mongoose](http://mongoosejs.com/) - elegant mongodb object modeling for node.js
 Mongoose provides a straight-forward, schema-based solution to model your application data.
 ```
 $ npm install mongoose
