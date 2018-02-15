@@ -1,29 +1,22 @@
-# Simple test project BlaBlaCar 
-## Learning MEAN Stack (MongoExpressAngularNode) 
+# MEAN Stack learning simple project (BlaBlaCar)
 
 
-## Setting Up the Development Environment
 
 # NodeJs (meaN stack)
-* [Download Node.js](https://nodejs.org/en/) - 
+* [Download Node.js](https://nodejs.org/en/) -  an open source server framework, allows you to run JavaScript on the server, has a set of built-in modules, uses asynchronous programming! (Node.js eliminates the waiting, and simply continues with the next request.), runs single-threaded, non-blocking, asynchronously programming, which is very memory efficient,
 
-Node.js is an open source server framework.
-Node.js allows you to run JavaScript on the server.
-Node.js has a set of built-in modules.
-Node.js uses asynchronous programming! (Node.js eliminates the waiting, and simply continues with the next request.)
-Node.js runs single-threaded, non-blocking, asynchronously programming, which is very memory efficient.
 What is a Module in Node.js?
 Consider modules to be the same as JavaScript libraries.
 A set of functions you want to include in your application.
 
-#### NPM
+## NPM
 NPM is a package manager for Node.js packages(modules).
 www.npmjs.com hosts thousands of free packages to download and use.
 The NPM program is installed on your computer when you install Node.js
 
 
 
-## Server Setup
+### Server Setup
 ```
 $ npm init
 ```
@@ -41,10 +34,9 @@ npm install -g nodemon
 
 ### Covoit Server dependencies
 
-####pakage.json
+#### pakage.json
 
-Covoit APP Entry file is : index.js (make index.js in the route of projet )
-
+Covoit APP Entry file is : index.js
 ```
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -71,7 +63,7 @@ var app = express();
 ```
 
 # MongoDB (Mean stack)
-* [Download Mongo DataBase](https://www.mongodb.com/) -  
+* [Download Mongo DataBase](https://www.mongodb.com/)  
 
 ### mongod
 
@@ -101,10 +93,11 @@ ng serve compile entire of angular application and verifies everythings and star
 
 
 
-* [bcrypt-nodejs](https://www.npmjs.com/package/bcrypt-nodejs) - 
-* [body-parser](https://github.com/expressjs/body-parser) - 
-* [CORS middleware](https://github.com/expressjs/cors) - 
-* [JSON Web Tokens](https://jwt.io/) - 
-* [mongoose](http://mongoosejs.com/) - 
+
+* [bcrypt-nodejs](https://www.npmjs.com/package/bcrypt-nodejs) 
+* [body-parser](https://github.com/expressjs/body-parser) 
+* [CORS middleware](https://github.com/expressjs/cors) 
+* [JSON Web Tokens](https://jwt.io/) 
+* [mongoose](http://mongoosejs.com/) 
 
 
