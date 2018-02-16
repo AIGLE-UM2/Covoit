@@ -11,8 +11,8 @@ const crypto = require('crypto').randomBytes(256).toString('hex');
 // we importe it in index.js => const config = require('./config/dataBase'); 
 // Export config object
 module.exports = {
-    uri: 'mongodb://localhost:27017/DB', // Databse URI and database name => mongodb://localhost:DB_Name
+    uri: 'mongodb://localhost:27017/27017', // Databse URI and database name => mongodb://localhost:DB_Name
     secret : crypto, // Cryto-created secret ( type of secret code we use throw out of our application like token and stuff like that (that's how our server can decrypt sth ))
-    db :'DB'  // Database name
+    db :'DB27017'  // Database name
 
 }

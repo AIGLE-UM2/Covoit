@@ -104,9 +104,9 @@ export class MTrajetsComponent implements OnInit {
       date: this.form.get('date').value // date field
     }
 
-    // Function to save blog into database
+    // Function to save trajet into database
     this.trajetService.newTrajet(trajet).subscribe(data => {
-      // Check if blog was saved to database or not
+      // Check if trajet was saved to database or not
       if (!data.success) {
         this.messageClass = 'alert alert-danger'; // Return error class
         this.message = data.message; // Return error message
